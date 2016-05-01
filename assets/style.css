@@ -1,0 +1,25 @@
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #eee;
+}
+
+.chart {
+	width:100%;
+}
+
+
+.chart th {
+	width: 30%;
+}
+
+.chart tr:nth-child(odd) {
+    background: #ddd;
+}
+
+.chart .cell {
+	width:100%;
+	height:100%;
+	background: white;
+	border:0;
+}
