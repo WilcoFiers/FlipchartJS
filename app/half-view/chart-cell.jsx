@@ -9,6 +9,8 @@ let ChartCell = React.createClass({
     },
 
     render() {
+        this.source = this.props.source || this.props.value;
+
         if (this.state.editMode === false) {
             return this.renderValue();
         } else {
@@ -21,11 +23,12 @@ let ChartCell = React.createClass({
     },
 
     endEditMode(event) {
-        if (event.target.value !== this.props.source) {
-            this.props.update(event.target.value);
+        let newSource = event.target.value.trim();
+        if (newSource !== this.source) {
+            this.props.update(newSource);
         }
         this.setState({ 'editMode': false });
-        setTimeout(() => this.button !== null ? this._button.focus() : null, 10);
+        setTimeout(() => this._button !== null ? this._button.focus() : null, 10);
     },
 
     renderValue() {
@@ -40,11 +43,13 @@ let ChartCell = React.createClass({
         return (<textarea onBlur={this.endEditMode} className="cell"
             ref={(elm) => elm !== null ? elm.focus() : elm }
             onKeyDown={this.pressEscape}
-            defaultValue={this.props.source} />);
+            defaultValue={this.source} />);
     },
 
-    pressEscape(event) {
-        (event.key === 'Escape') ? this.endEditMode(event) : null;
+    abortEdit(event) {
+        if (event.key === 'Escape') {
+            this.setState({ 'editMode': false });
+        }
     }
 
 });

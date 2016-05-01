@@ -1,13 +1,13 @@
 /* global React, ReactDOM, flipchart */
 
-let ChartObject = require('./ChartObject.jsx');
+let ChartObject = require('./full-view/chart-object.jsx');
 
-let chart = flipchart.create({
+let source = {
 	foo: 123,
-	bar: 345
-});
+	bar: [3, 2, 1]
+};
 
 ReactDOM.render(
-	<ChartObject chart={chart} />,
+	<ChartObject source={source} />,
     document.getElementById('main')
 );

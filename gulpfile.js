@@ -32,7 +32,7 @@ gulp.task('watch:lib', function () {
 });
 
 gulp.task('watch:app', function () {
-	watch('./app/**/*.jsx', function () {
+	watch('./app/**/*.{js,jsx}', function () {
 		gulp.start('pack:app');
 	});
 });
