@@ -2,14 +2,20 @@
 
 const ChartCell = require('./chartCell.jsx');
 
-let ChartObject = React.createClass({displayName: 'ChartObject',
+let ChartObject = React.createClass({
+	displayName: 'ChartObject',
 	/**
 	 *
 	 */
   	render() {
-    	return (<table className="chart"><tbody>
-	    	{Object.keys( this.props.values).map(
-	    		prop => this.renderProperty(prop, this.props.values[prop])
+  		this.values = this.props.chart.getValues();
+  		this.source = this.props.chart.getSource();
+
+    	return (<table className="chart">{
+          this.renderThead()
+        }<tbody>
+	    	{Object.keys( this.values).map(
+	    		prop => this.renderProperty(prop, this.source[prop], this.values[prop])
     		)}
 		</tbody></table>);
   	},
@@ -17,37 +23,37 @@ let ChartObject = React.createClass({displayName: 'ChartObject',
 	/**
 	 *
 	 */
-  	renderProperty(prop, value) {
+  	renderProperty(prop, source, value) {
   		return (<tr key={prop}>
   			<th><ChartCell update={this.updateProp(prop)} value={prop} /></th>
-  			<td><ChartCell update={this.updateVal(prop)} value={value} /></td>
+  			<td><ChartCell update={this.updateVal(prop)}
+  				source={source} value={value} /></td>
   		</tr>);
   	},
 
+    renderThead() {
+      return <thead><tr>
+        <th>Names</th> <th>Values</th>
+      </tr></thead>;
+    },
+
   	/**
-  	 * Update the property
-  	 * @param  {[type]} prop [description]
-  	 * @return {[type]}      [description]
+  	 * Rename a property
   	 */
   	updateProp(prop) {
   		return (newProp) => {
-  			console.log('change propName from ', prop, 'to', newProp);
-  			this.props.values[newProp] = this.props.values[prop];
-  			delete this.props.values[prop];
-
+  			this.props.chart.rename(prop, newProp);
   			this.forceUpdate();
   		}
   	},
 
   	/**
-  	 * [updateVal description]
-  	 * @param  {[type]} prop [description]
-  	 * @return {[type]}      [description]
+  	 * Update a value
   	 */
   	updateVal(prop) {
   		return (newVal) => {
-  			console.log('change val of ', prop, 'to', newVal);
-  			this.props.values[prop] = newVal;
+        console.log('updateVal', prop, newVal);
+  			this.props.chart.set(prop, newVal);
   			this.forceUpdate();
   		}
   	}

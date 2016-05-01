@@ -8,6 +8,6 @@ let chart = flipchart.create({
 });
 
 ReactDOM.render(
-	<ChartObject values={chart.getValues()} />,
+	<ChartObject chart={chart} />,
     document.getElementById('main')
 );
