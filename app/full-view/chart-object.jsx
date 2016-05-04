@@ -2,6 +2,7 @@
 
 const ChartCell = require('../half-view/chart-cell.jsx');
 const ChartList = require('../half-view/chart-list.jsx');
+const AddButton = require('../components/add-button.jsx');
 const utils = require('../utils');
 
 let ChartObject = React.createClass({
@@ -14,7 +15,13 @@ let ChartObject = React.createClass({
     render() {
         this.source = this.props.source;
         this.values = flipchart.getValues(this.source);
-
+        return <div>{
+            this.renderTable()
+        }{
+            this.renderAddButton()
+        }</div>
+    },
+    renderTable() {
         return (<table className="chart">{
             this.renderThead()
         }<tbody>
@@ -47,6 +54,14 @@ let ChartObject = React.createClass({
       return <thead><tr>
         <th>Names</th> <th>Values</th>
       </tr></thead>;
+    },
+
+    renderAddButton() {
+        return <AddButton onAdd={() => {
+            this.source['_'] = undefined;
+            this.values = flipchart.getValues(this.source);
+            this.forceUpdate();
+        }} />
     }
 });
 

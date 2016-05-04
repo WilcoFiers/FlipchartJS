@@ -17,8 +17,7 @@ module.exports.updateProp = function (self, prop) {
  */
 module.exports.updateVal = function (self, prop) {
     return (newVal) => {
-        console.log(newVal, self, prop);
-        self.source[prop] = newVal;
+        self.source[prop] = flipchart.resolveValue(newVal);
         self.values = flipchart.getValues(self.source);
         self.forceUpdate();
     }
@@ -26,7 +25,7 @@ module.exports.updateVal = function (self, prop) {
 
 module.exports.updateArray =  function(self, sourceItem, index) {
     return (newSourceItem) => {
-        newSourceItem = flipchart.utils.sanitize(newSourceItem);
+        newSourceItem = flipchart.resolveValue(newSourceItem);
 
         if (newSourceItem === sourceItem) {
             return;
@@ -34,7 +33,6 @@ module.exports.updateArray =  function(self, sourceItem, index) {
         if (newSourceItem === '') {
             newSourceItem = undefined;
         }
-        console.log(self.source, index, newSourceItem);
         self.source.splice(index, 1, newSourceItem);
         self.forceUpdate();
     }
