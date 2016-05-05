@@ -28,7 +28,6 @@ let ChartList = React.createClass({
     },
 
     addItem() {
-        console.log('add item');
         this.source.push('');
         this.values = flipchart.getValues(this.source);
         this.forceUpdate();
